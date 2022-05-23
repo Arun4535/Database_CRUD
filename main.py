@@ -1,12 +1,17 @@
+#Tasks to be done
 # 1.create connection in constructor
 # 2. insert
 # 3. display all
 # 4. delete
+# 5. update
+# 6. Truncate
+#create pythonTest database in mysql first
+
 import mysql.connector as connector
 
 class DBHelper:
     def __init__(self): #constructor will create table
-        self.con = connector.connect(host='localhost',port='3306',user='root',password='arun4535',database='pythonTest')
+        self.con = connector.connect(host='localhost',port='3306',user='root',password='root',database='pythonTest')
         query='create table if not exists Employee(empId int primary key,Name varchar(20),phone varchar(12))'
         cur=self.con.cursor()
         cur.execute(query)
@@ -15,7 +20,7 @@ class DBHelper:
     #insert
     def insert_employee(self,id,name,contact):
         query = "insert into employee(empId,Name,phone) values({},'{}','{}')".format(id,name,contact)
-        print(query)
+        #print(query)
         cur = self.con.cursor()
         cur.execute(query)
         self.con.commit()
@@ -26,7 +31,6 @@ class DBHelper:
         query = 'select * from employee'
         cur = self.con.cursor()
         cur.execute(query)
-        # print('Employee ID     EmployeeName    Contact')
         print("Table entries are : ")
         for row in cur:
             print("EmployeeID : ",row[0],", EmployeeName : ",row[1],", Contact : ",row[2])
@@ -39,7 +43,7 @@ class DBHelper:
         self.con.commit()
         print('Employee deleted')
     
-    #update method
+    #update method to update name corresponding given employee id
     def update_employee(self,id,newName):
         query = 'update employee set Name = "{}" where empId = {}'.format(newName,id)
         print(query)
